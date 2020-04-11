@@ -39,5 +39,3 @@ export const tvApi = {
     }
   })
 };
-
-api.get('tv/popular');
