@@ -19,4 +19,4 @@
 - [x] Airing Today (TV)
 - [x] TV Show Detail
 - [x] Moive Detail
-- [ ] Search (Movie, TV)
+- [x] Search (Movie, TV)
