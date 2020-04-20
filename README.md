@@ -6,10 +6,10 @@
 모듈 다운로드시 yarn 사용
 
 ## Screen
-- [ ] Home
-- [ ] TV Shows
-- [ ] Search
-- [ ] Detail
+- [x] Home
+- [x] TV Shows
+- [x] Search
+- [x] Detail
 
 ## API Verbs
 - [x] Now Playing (Movie)
@@ -20,3 +20,8 @@
 - [x] TV Show Detail
 - [x] Moive Detail
 - [x] Search (Movie, TV)
+
+## Challenge Homework
+- [x] IMDB 링크 추가
+- [ ] 영화, 회사, 나라 탭 추가
+- [ ] TV만 따로 시즌 추가
