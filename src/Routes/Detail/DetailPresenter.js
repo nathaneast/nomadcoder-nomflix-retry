@@ -81,7 +81,7 @@ const Overview = styled.p`
   line-height: 1.5;
   width: 50%;
 `;
-const DetailPresenter = ({ result, error, loading }) =>
+const DetailPresenter = ({ result, error, loading, isMovie }) =>
   loading ? (
     <>
       <Helmet>
@@ -135,7 +135,13 @@ const DetailPresenter = ({ result, error, loading }) =>
                 </Item>
                 <Divider>•</Divider>
                 <IMDBItem>
-                  <IMDBLink target='_blank' onClick={event => { window.open(`https://www.imdb.com/title/${result.imdb_id}/`) }} >
+                  <IMDBLink to={'route'} target='_blank' onClick={event => {
+                    isMovie ? (
+                      window.open(`https://www.imdb.com/title/${result.imdb_id}/`)
+                    ) : (
+                        window.open(`https://www.imdb.com/title/${result.external_ids.imdb_id}/`)
+                      )
+                  }} >
                     <Item>IMDB</Item>
                   </IMDBLink>
                 </IMDBItem>
