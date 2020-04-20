@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Loader from 'Components/Loader';
+import { Helmet } from "react-helmet";
+
+import Message from '../../Components/Message';
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -27,9 +31,9 @@ const Backdrop = styled.div`
 const Content = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
   position: relative;
   z-index: 1;
+  height: 100%;
 `;
 
 const Cover = styled.div`
@@ -43,7 +47,7 @@ const Cover = styled.div`
 
 const Data = styled.div`
   width: 70%;
-  margin-left: 10px;
+  margin-left: 20px;
 `;
 
 const Title = styled.h3`
@@ -51,8 +55,19 @@ const Title = styled.h3`
 `;
 
 const ItemContainer = styled.div`
+  display: flex;
   margin: 20px 0;
 `;
+
+const IMDBItem = styled.div`
+  background-color: #f1c40f;
+  font-weight: 500;
+  padding: 3px;
+  border-radius: 3px;
+  color: #2c3e50;
+`;
+
+const IMDBLink = styled(Link)``;
 
 const Item = styled.span``;
 
@@ -66,47 +81,70 @@ const Overview = styled.p`
   line-height: 1.5;
   width: 50%;
 `;
-
-const DetailPresenter = ({ result, error, loading }) => (
+const DetailPresenter = ({ result, error, loading }) =>
   loading ? (
-    <Loader />
+    <>
+      <Helmet>
+        <title>Loading | nomflix</title>
+      </Helmet>
+      <Loader />
+    </>
   ) : (
-      <Container>
-        <Backdrop
-          bgImage={`https://image.tmdb.org/t/p/original${result.backdrop_path}`}
-        />
-        <Content>
-          <Cover
-            bgImage={
-              result.poster_path
-                ? `https://image.tmdb.org/t/p/original${result.poster_path}`
-                : require('../../assets/no_poster_Img.png')
-            }
+      error ? <Message color={'#e74c3c'} text={error} /> : (
+        <Container>
+          <Helmet>
+            <title>{result.original_title ? result.original_title : result.original_name}{' '} | nomflix</title>
+          </Helmet>
+          <Backdrop
+            bgImage={`https://image.tmdb.org/t/p/original${result.backdrop_path}`}
           />
-        </Content>
-        <Data>
-          <Title>
-            {result.original_title
-              ? result.original_title
-              : result.original_name
-            }
-          </Title>
-          <ItemContainer>
-            <Item>
-              {result.release_date
-                ? result.release_date.substring(0, 4)
-                : result.first_air_date.substring(0, 4)
+          <Content>
+            <Cover
+              bgImage={
+                result.poster_path
+                  ? `https://image.tmdb.org/t/p/original${result.poster_path}`
+                  : require('../../assets/no_poster_Img.png')
               }
-            </Item>
-            <Divider>▪</Divider>
-            <Item>
-
-            </Item>
-          </ItemContainer>
-        </Data>
-      </Container>
-    )
-);
+            />
+            <Data>
+              <Title>
+                {result.original_title
+                  ? result.original_title
+                  : result.original_name
+                }
+              </Title>
+              <ItemContainer>
+                <Item>
+                  {result.release_date
+                    ? result.release_date.substring(0, 4)
+                    : result.first_air_date.substring(0, 4)
+                  }
+                </Item>
+                <Divider>▪</Divider>
+                <Item>
+                  {result.runtime ? result.runtime : result.episode_run_time[0]} min
+                </Item>
+                <Divider>•</Divider>
+                <Item>
+                  {result.genres &&
+                    result.genres.map((genre, index) =>
+                      index === result.genres.length - 1
+                        ? genre.name
+                        : `${genre.name} / `
+                    )}
+                </Item>
+                <Divider>•</Divider>
+                <IMDBItem>
+                  <IMDBLink target='_blank' onClick={event => { window.open(`https://www.imdb.com/title/${result.imdb_id}/`) }} >
+                    <Item>IMDB</Item>
+                  </IMDBLink>
+                </IMDBItem>
+              </ItemContainer>
+              <Overview>{result.overview}</Overview>
+            </Data>
+          </Content>
+        </Container>
+      ));
 
 DetailPresenter.prototype = {
   nowPlaying: PropTypes.array,

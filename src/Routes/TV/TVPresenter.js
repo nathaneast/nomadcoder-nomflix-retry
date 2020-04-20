@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Helmet } from "react-helmet";
 
 import Section from 'Components/Section';
 import Loader from 'Components/Loader';
@@ -11,13 +12,17 @@ const Container = styled.div`
   padding: 20px;
 `;
 
-const TVPresenter = ({ topRated, popular, airingToday, error, loading }) =>
-  loading ? (
+const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => (
+  <>
+    <Helmet>
+      <title>TV | nomflix</title>
+    </Helmet>
+   { loading ? (
     <Loader />
   ) : (
       <Container>
         {topRated && topRated.length > 0 && (
-          <Section title='Now Playing'>
+          <Section title='Top Rated TV Show'>
             {topRated.map(tv => (
               <Poster
                 key={tv.id}
@@ -31,7 +36,7 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) =>
           </Section>
         )}
         {popular && popular.length > 0 && (
-          <Section title='popular TV'>
+          <Section title='Popular TV'>
             {popular.map(tv => (
               <Poster
                 key={tv.id}
@@ -45,7 +50,7 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) =>
           </Section>
         )}
         {airingToday && airingToday.length > 0 && (
-          <Section title='airingToday'>
+          <Section title='Airing Today'>
             {airingToday.map(tv => (
               <Poster
                 key={tv.id}
@@ -60,7 +65,9 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) =>
         )}
         {error && <Message color={'#e74c3c'} text={error} />}
       </Container>
-    );
+    )}
+  </>
+);
 
 TVPresenter.prototype = {
   topRated: PropTypes.array,

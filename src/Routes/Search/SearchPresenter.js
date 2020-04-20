@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Helmet } from "react-helmet";
+
 import Loader from 'Components/Loader';
 import Section from 'Components/Section';
 import Message from '../../Components/Message';
@@ -23,51 +25,56 @@ const Input = styled.input`
 `;
 
 const SearchPresenter = ({ movieResult, tvResult, searchTerm, error, loading, handleSubmit, updateTerm }) => (
-  <Container>
-    <Form onSubmit={handleSubmit}>
-      <Input placeholder='search movies or Tv...' value={searchTerm} onChange={updateTerm} />
-    </Form>
-    {loading ? <Loader /> : (
-      <>
-        {movieResult && movieResult.length > 0 && (
-          <Section title='Movie Results'>
-            {movieResult.map(movie => (
-              <Poster
-                key={movie.id}
-                id={movie.id}
-                imageUrl={movie.poster_path}
-                title={movie.title}
-                rating={movie.vote_average}
-                year={movie.release_date && movie.release_date.substring(0, 4)}
-                isMovie={true}
-              />
-            ))}
-          </Section>
-        )}
-        {tvResult && tvResult.length > 0 && (
-          <Section title='TV Results'>
-            {tvResult.map(tv => (
-              <Poster
-                key={tv.id}
-                id={tv.id}
-                imageUrl={tv.poster_path}
-                title={tv.original_name}
-                rating={tv.vote_average}
-                year={tv.first_air_date && tv.first_air_date.substring(0, 4)}
-              />
-            ))}
-          </Section>
-        )}
-        {error && <Message color={'#e74c3c'} text={error} />}
-        {movieResult &&
-          tvResult &&
-          movieResult.length === 0 &&
-          tvResult.length === 0 && (
-            <Message color={'#95a5a6'} text={'Nothing Found'} />
+  <>
+    <Helmet>
+      <title>search | nomflix</title>
+    </Helmet>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Input placeholder='search movies or Tv...' value={searchTerm} onChange={updateTerm} />
+      </Form>
+      {loading ? <Loader /> : (
+        <>
+          {movieResult && movieResult.length > 0 && (
+            <Section title='Movie Results'>
+              {movieResult.map(movie => (
+                <Poster
+                  key={movie.id}
+                  id={movie.id}
+                  imageUrl={movie.poster_path}
+                  title={movie.title}
+                  rating={movie.vote_average}
+                  year={movie.release_date && movie.release_date.substring(0, 4)}
+                  isMovie={true}
+                />
+              ))}
+            </Section>
           )}
-      </>
-    )}
-  </Container>
+          {tvResult && tvResult.length > 0 && (
+            <Section title='TV Results'>
+              {tvResult.map(tv => (
+                <Poster
+                  key={tv.id}
+                  id={tv.id}
+                  imageUrl={tv.poster_path}
+                  title={tv.original_name}
+                  rating={tv.vote_average}
+                  year={tv.first_air_date && tv.first_air_date.substring(0, 4)}
+                />
+              ))}
+            </Section>
+          )}
+          {error && <Message color={'#e74c3c'} text={error} />}
+          {movieResult &&
+            tvResult &&
+            movieResult.length === 0 &&
+            tvResult.length === 0 && (
+              <Message color={'#95a5a6'} text={'Nothing Found'} />
+            )}
+        </>
+      )}
+    </Container>
+  </>
 );
 
 SearchPresenter.prototype = {
