@@ -59,7 +59,7 @@ const ItemContainer = styled.div`
   margin: 20px 0;
 `;
 
-const IMDBItem = styled.div`
+const IMDBButton = styled.div`
   background-color: #f1c40f;
   font-weight: 500;
   padding: 3px;
@@ -67,7 +67,7 @@ const IMDBItem = styled.div`
   color: #2c3e50;
 `;
 
-const IMDBLink = styled(Link)``;
+const IMDBLink = styled.a``;
 
 const Item = styled.span``;
 
@@ -81,6 +81,16 @@ const Overview = styled.p`
   line-height: 1.5;
   width: 50%;
 `;
+
+const MoreInfo = styled.div``;
+
+const VideosTab = styled.div``;
+
+const ProductionTab = styled.div``;
+
+const CountriesTab = styled.div``;
+
+
 const DetailPresenter = ({ result, error, loading, isMovie }) =>
   loading ? (
     <>
@@ -134,19 +144,27 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
                     )}
                 </Item>
                 <Divider>•</Divider>
-                <IMDBItem>
-                  <IMDBLink to={'route'} target='_blank' onClick={event => {
-                    isMovie ? (
-                      window.open(`https://www.imdb.com/title/${result.imdb_id}/`)
-                    ) : (
-                        window.open(`https://www.imdb.com/title/${result.external_ids.imdb_id}/`)
-                      )
-                  }} >
+                <IMDBButton>
+                  <IMDBLink target='_blank' href={isMovie ? (
+                    `https://www.imdb.com/title/${result.imdb_id}/`
+                  ) : (
+                      `https://www.imdb.com/title/${result.external_ids.imdb_id}/`
+                    )} >
                     <Item>IMDB</Item>
                   </IMDBLink>
-                </IMDBItem>
+                </IMDBButton>
               </ItemContainer>
               <Overview>{result.overview}</Overview>
+              {/* <MoreInfo>
+                <VideosTab>
+                  {result.videos.results.map(video => {
+                    return (
+                      <iframe title='video' key={video.id} width="200" height="200" src={`https://www.youtube.com/embed/${video.key}`} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                      </iframe>
+                    )
+                  })}
+                </VideosTab>
+              </MoreInfo> */}
             </Data>
           </Content>
         </Container>
